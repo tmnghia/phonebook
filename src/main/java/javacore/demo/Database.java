@@ -44,7 +44,7 @@ public class Database {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 String[] params = line.split("-");
-                database.add(new Contact(params[0], params[1]));
+                database.add(new Contact(params[0].trim(), params[1].trim()));
             }
         } catch (NoSuchFileException e) {
             System.err.println("File " + dbPath + " not found");
@@ -57,12 +57,11 @@ public class Database {
 
     private void updateDatabase() {
         Collections.sort(database, Comparator.comparing(Contact::getName));
-        System.out.println("Database.updateDatabase() database: " + database);
         cleanupDB();
         try (BufferedWriter writer = Files.newBufferedWriter(dbPath, StandardCharsets.UTF_8,
                 StandardOpenOption.WRITE)) {
             for (Contact contact : database) {
-                writer.write(contact.getName() + "-" + contact.getPhone());
+                writer.write(contact.getName() + " - " + contact.getPhone());
                 writer.newLine();
             }
         } catch (Exception e) {
@@ -89,7 +88,6 @@ public class Database {
             if (contact.getName().equals(name)) {
                 database.remove(contact);
                 System.out.println("Removed contact with name: " + name);
-                System.out.println(database);
                 updateDatabase();
 
                 return true;

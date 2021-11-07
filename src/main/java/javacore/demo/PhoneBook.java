@@ -109,6 +109,11 @@ public final class PhoneBook {
     }
 
     private static void show() {
+        System.out.printf("%-20s %-10s\n", "Name", "Phone");
+        System.out.println("--------------------------------\n");
+        for (Contact contact : db.getDatabase()) {
+            System.out.printf("%-20s %-10s\n", contact.getName(), contact.getPhone());
+        }
     }
 
     private static void clearScreen() {
