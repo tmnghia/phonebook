@@ -61,6 +61,9 @@ public final class PhoneBook {
                 case PHONEBOOK_ACTION_SHOW:
                     show();
                     break;
+                case PHONEBOOK_ACTION_EXIT:
+                    System.out.println("Exiting...");
+                    break;
                 default:
                     System.out.println("Invalid option " + option);
                     break;
@@ -88,5 +91,7 @@ public final class PhoneBook {
     }
 
     private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
