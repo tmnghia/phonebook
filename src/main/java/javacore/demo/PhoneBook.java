@@ -79,6 +79,15 @@ public final class PhoneBook {
     }
 
     private static void add() {
+        Contact newContact = new Contact();
+        newContact.input();
+        if (!db.insert(newContact)) {
+            System.err.println("Adding new contact failed!");
+            return;
+        }
+
+        System.out.println("Created new contact");
+        newContact.show();
     }
 
     private static void edit() {
