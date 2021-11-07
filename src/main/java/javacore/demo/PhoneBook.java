@@ -99,6 +99,13 @@ public final class PhoneBook {
     }
 
     private static void delete() {
+        System.out.print("Input contact name to delete: ");
+        String name = userInput.nextLine();
+        if (!db.delete(name)) {
+            System.err.printf("Deleting contact with name %s failed\n", name);
+            return;
+        }
+        System.out.println("Deleted contact with name " + name);
     }
 
     private static void show() {

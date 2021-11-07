@@ -2,6 +2,8 @@ package javacore.demo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -14,7 +16,7 @@ import java.util.Comparator;
 
 public class Database {
     private static Database instance;
-    private ArrayList<Contact> database =new ArrayList<>();
+    private ArrayList<Contact> database = new ArrayList<>();
     private Path dbPath = Paths.get("phonebook.db");
 
     private Database() {
@@ -55,10 +57,13 @@ public class Database {
 
     private void updateDatabase() {
         Collections.sort(database, Comparator.comparing(Contact::getName));
+        System.out.println("Database.updateDatabase() database: " + database);
+        cleanupDB();
         try (BufferedWriter writer = Files.newBufferedWriter(dbPath, StandardCharsets.UTF_8,
                 StandardOpenOption.WRITE)) {
             for (Contact contact : database) {
-                writer.write(contact.getName() + "-" + contact.getPhone() + '\n');
+                writer.write(contact.getName() + "-" + contact.getPhone());
+                writer.newLine();
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -84,6 +89,9 @@ public class Database {
             if (contact.getName().equals(name)) {
                 database.remove(contact);
                 System.out.println("Removed contact with name: " + name);
+                System.out.println(database);
+                updateDatabase();
+
                 return true;
             }
         }
@@ -98,5 +106,19 @@ public class Database {
             }
         }
         updateDatabase();
+    }
+
+    public void cleanupDB() {
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter("phonebook.db");
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
