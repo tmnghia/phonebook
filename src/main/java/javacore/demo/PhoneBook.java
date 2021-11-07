@@ -91,6 +91,11 @@ public final class PhoneBook {
     }
 
     private static void edit() {
+        System.out.print("Input contact name: ");
+        String name = userInput.nextLine();
+        System.out.print("Input new phone number: ");
+        String phone = userInput.nextLine();
+        db.update(name, phone);
     }
 
     private static void delete() {
