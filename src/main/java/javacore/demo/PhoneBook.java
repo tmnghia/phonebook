@@ -19,6 +19,7 @@ public final class PhoneBook {
      * Static variables
      */
     static Scanner userInput = new Scanner(System.in);
+    static Database db = Database.getInstance();
 
     private PhoneBook() {
     }
